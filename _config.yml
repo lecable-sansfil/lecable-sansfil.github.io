@@ -1,5 +1,11 @@
-languages: ["fr", "en"]
+exclude:
+  - Makefile
+  - "*.md"
+  - "*.json"
+
 exclude_from_localizations: ["assets"]
+
+languages: ["fr", "en"]
 
 plugins:
   - jekyll-multiple-languages-plugin
