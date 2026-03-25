@@ -8,17 +8,7 @@ root_dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 help:
 	@echo "Makefile commands:"
-	@echo "  build       - Build the minified CSS and JS files using Docker"
-	@echo "  serve       - Serve the Jekyll site using Docker"
-
-build:
-	docker run --rm \
-	  --env GEM_HOME=/srv/jekyll/.jekyll-cache/gemfiles \
-	  --volume="$(root_dir):/srv/jekyll:Z" \
-	  jekyll/jekyll \
-	  npm init -y && \
-	  npm install --save-dev javascript-obfuscator cssnano-cli && \
-	  npm run build:min
+	@echo "  serve    - Serve the Jekyll site using Docker"
 
 serve:
 	docker run --rm \
@@ -26,4 +16,4 @@ serve:
 	  --publish 4000:4000 \
 	  --volume="$(root_dir):/srv/jekyll:Z" \
 	  jekyll/jekyll \
-	  jekyll serve --trace
+	  sh -c "npm install && jekyll serve --trace"

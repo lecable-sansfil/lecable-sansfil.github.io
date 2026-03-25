@@ -1,0 +1,13 @@
+{
+  "name": "lecable-sansfil.github.io",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "cssnano-cli": "^1.0.5",
+    "javascript-obfuscator": "^4.2.2"
+  },
+  "scripts": {
+    "minify:js": "javascript-obfuscator assets/js/artist-onboard.js --output _site/assets/js/artist-onboard.min.js --compact true --control-flow-flattening true && rm _site/assets/js/artist-onboard.js",
+    "build:min": "npm run minify:js"
+  }
+}

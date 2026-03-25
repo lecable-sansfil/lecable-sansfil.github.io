@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="{{ site.lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% t _.site_title %}</title>
+    <meta name="description" content="{% t _.meta_description %}">
+    <meta name="robots" content="index, follow">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            /* Blanc crème pour éviter l'agression du blanc pur */
+            background-color: #fcfaf7;
+            /* Noir profond */
+            color: #1a1a1a;
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .dispatch-container {
+            /* Colonne étroite type éditorial */
+            max-width: 500px;
+            width: 100%;
+            /* Aligné à gauche pour l'effet "dépêche" */
+            text-align: left;
+            border-left: 2px solid #1a1a1a;
+            padding-left: 30px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            line-height: 0.9;
+        }
+
+        .lead {
+            font-size: 1rem;
+            letter-spacing: 0;
+            line-height: 1.5;
+            text-transform: none; /* Plus lisible pour de longs textes */
+            margin-bottom: 1.5rem;
+        }
+
+        .availability-box {
+            margin-top: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .lang-selector {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px; /* Si placé en haut */
+        }
+
+        .lang-selector a {
+            color: #1a1a1a;
+            text-decoration: none;
+            opacity: 0.4; /* Langue non-active plus effacée */
+            transition: opacity 0.2s;
+        }
+
+        .lang-selector a:hover {
+            opacity: 1;
+        }
+
+        .lang-selector .active {
+            color: #1a1a1a;
+            border-bottom: 2px solid #1a1a1a; /* Souligne la langue actuelle */
+        }
+
+        .terminal-text {
+            border-right: 8px solid #1a1a1a;
+            margin-left: 5px;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #1a1a1a; }
+        }
+
+        footer {
+            position: absolute;
+            bottom: 30px;
+            left: 50px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        footer a {
+            color: #1a1a1a;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .dispatch-container {
+                padding-left: 20px;
+            }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    {{ content }}
+
+    <footer>
+        {% t _.wired_by %} <a href="https://www.lecable.de">lecable.de</a>
+        | <a href="#" target="_blank">{% t _.term_of_use %}</a>
+        | <a href="#" target="_blank">{% t _.privacy_policy %}</a>
+        | <a href="https://stats.uptimerobot.com/EylEUInaSg" target="_blank">{% t _.system_status %}</a>
+        | <a href="#" target="_blank">{% t _.contact %}</a>
+    </footer>
+
+</body>
+</html>
