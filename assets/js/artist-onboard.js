@@ -24,7 +24,6 @@
         }
     };
 
-    // Récupération des traductions utilisateurs via data-i18n (JSON)
     let userT = {};
     try {
         const attr = currentScript.getAttribute('data-i18n');
@@ -32,7 +31,8 @@
     } catch (e) { console.error("LeCable: Erreur format JSON dans data-i18n"); }
 
     const CONFIG = {
-        endpoint: "https://lecable.de/api/wire",
+        authEndpoint: "https://lecable.de/api/auth/token",
+        onboardEndpoint: "https://lecable.de/api/artist/onboard",
         apiKey: currentScript.getAttribute('data-token') || '',
         uuid: currentScript.getAttribute('data-uuid') || '',
         container: currentScript.getAttribute('data-container') || 'body',
@@ -40,7 +40,6 @@
         timeoutMs: 30000
     };
 
-    // Fusion des traductions (Priorité utilisateur > Défaut)
     const t = {
         ...defaultT[CONFIG.locale],
         ...(userT[CONFIG.locale] || {})
@@ -66,8 +65,6 @@
             #${randomId} .status-success { color: #27ae60; font-weight: bold; }
             #${randomId} button { padding: 12px; border: none; border-radius: 4px; background: #333; color: #fff; cursor: pointer; font-weight: bold; }
             #${randomId} .hidden { display: none !important; }
-
-            /* Animation "Câble" */
             #${randomId} .cable-loader { position: relative; width: 60px; height: 30px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
             #${randomId} .cable-plug { width: 20px; height: 10px; background: #333; border-radius: 2px; position: relative; }
             #${randomId} .cable-plug::after { content: ''; position: absolute; right: -5px; top: 2px; width: 5px; height: 6px; background: #666; }
@@ -161,9 +158,24 @@
             const timeoutId = setTimeout(() => controller.abort(), CONFIG.timeoutMs);
 
             try {
-                const response = await fetch(CONFIG.endpoint, {
+                // Étape 1 : Récupération du short token
+                const authResponse = await fetch(`${CONFIG.authEndpoint}?scope=artist/onboard`, {
+                    method: 'GET',
+                    headers: { 'X-Api-Key': CONFIG.apiKey },
+                    signal: controller.signal
+                });
+
+                if (!authResponse.ok) throw new Error("Auth failed");
+                const authData = await authResponse.json();
+                const shortToken = authData.token;
+
+                // Étape 2 : Appel API Onboard avec le nouveau header X-Token
+                const response = await fetch(CONFIG.onboardEndpoint, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Api-Key': CONFIG.apiKey },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Token': shortToken
+                    },
                     body: JSON.stringify({
                         email: form.email.value.trim(),
                         artist_name: form.name.value.trim(),

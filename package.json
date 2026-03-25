@@ -7,7 +7,7 @@
     "javascript-obfuscator": "^4.2.2"
   },
   "scripts": {
-    "minify:js": "javascript-obfuscator assets/js/onboarding.js --output _site/assets/js/onboarding.min.js --compact true --control-flow-flattening true && rm _site/assets/js/onboarding.js",
+    "minify:js": "javascript-obfuscator assets/js/artist-onboard.js --output _site/assets/js/artist-onboard.min.js --compact true --control-flow-flattening true && rm _site/assets/js/artist-onboard.js",
     "build:min": "npm run minify:js"
   }
 }
